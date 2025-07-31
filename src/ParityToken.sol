@@ -6,7 +6,7 @@ import {OwnableUpgradeable} from "lib/openzeppelin-contracts-upgradeable/contrac
 import {Initializable} from "lib/openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.sol";
 import {IERC20} from "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 import {IERC20Metadata} from "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol";
-import {RetrencyGuardUpgradeable} from "lib/openzeppelin-contracts-upgradeable/contracts/security/ReentrancyGuardUpgradeable.sol";
+import {ReentrancyGuardUpgradeable} from "lib/openzeppelin-contracts-upgradeable/contracts/security/ReentrancyGuardUpgradeable.sol";
 
 contract ParityToken is Initializable, UUPSUpgradeable, OwnableUpgradeable, ReentrancyGuardUpgradeable, IERC20, IERC20Metadata {
     uint256 private _totalSupply;
@@ -32,7 +32,11 @@ contract ParityToken is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reen
         emit Transfer(address(0), msg.sender, initialSupply);
     }
 
-  //metadata functions
+    /**
+     * @dev Metadata functions for the Parity Token.
+     * Includes name, symbol, decimals, and total supply.
+     */
+
     function name() public pure returns (string memory) {
         return "Parity Token";
     }
@@ -117,14 +121,14 @@ contract ParityToken is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reen
     }
 
     function _approve(address owner, address spender, uint256 value) internal {
-        require(owner != address(0), "invalid owner");
-        require(spender != address(0), "invalid spender");
+        require(owner != address(0), "Invalid owner");
+        require(spender != address(0), "Invalid spender");
         allowance[owner][spender] = value;
         emit Approval(owner, spender, value);
     }
 
     function _mint(address to, uint256 value) internal {
-        require(to != address(0), "invalid recipient");
+        require(to != address(0), "Invalid recipient");
         _totalSupply += value;
         balanceOf[to] += value;
         emit Transfer(address(0), to, value);
