@@ -120,15 +120,16 @@ contract ParityToken is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reen
         return result;
     }
 
-    function _approve(address owner, address spender, uint256 value) internal {
-        require(owner != address(0), "Invalid owner");
-        require(spender != address(0), "Invalid spender");
+    
+        function _approve(address owner, address spender, uint256 value) internal {
+        require(owner != address(0), "Invalid Owner");
+        require(spender != address(0), "Invalid Spender");
         allowance[owner][spender] = value;
         emit Approval(owner, spender, value);
     }
 
     function _mint(address to, uint256 value) internal {
-        require(to != address(0), "Invalid recipient");
+        require(to != address(0), "Invalid Recipient");
         _totalSupply += value;
         balanceOf[to] += value;
         emit Transfer(address(0), to, value);
